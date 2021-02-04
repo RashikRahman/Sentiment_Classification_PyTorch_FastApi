@@ -5,8 +5,9 @@ import transformers
 from transformers import AdamW, get_linear_schedule_with_warmup
 from sklearn import metrics
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
-class BERTDataset: 
+class Data: 
     def __init__(self, texts, targets, max_len = 64):
         self.texts = texts
         self.targets = targets
@@ -42,7 +43,7 @@ class BERTDataset:
         return resp
 
 
-class TextModel(tex.Model):
+class TextModel(tez.Model):
     def __init__(self, num_classes, num_train_steps):
         super().__init__()
         self.bert = transformers.BertModel.from_pretrained("bert-base-uncased", 
@@ -82,5 +83,33 @@ class TextModel(tex.Model):
             return x, loss, met
         return x, 0, {}
 
-def train_model(fold):
-    df = pd.read_csv()
+
+if __name__ == "__main__":
+    dfx = pd.read_csv(r"G:\DS\3.Personal_Projects\Sentiment_Classification_PyTorch_FastApi\Data\imdb.csv")
+    dfx.sentiment = dfx.sentiment.apply(lambda x: 1 if x == "positive" else 0)
+
+    df_train, df_valid = train_test_split(dfx, test_size=0.1, random_state=42, stratify=dfx.sentiment.values)
+
+    df_train = df_train.reset_index(drop=True)
+    df_valid = df_valid.reset_index(drop=True)
+
+    train_dataset = Data(texts=df_train.review.values, targets=df_train.sentiment.values)
+
+    valid_dataset = Data(texts=df_valid.review.values, targets=df_valid.sentiment.values)
+
+    n_train_steps = int(len(df_train) / 32 * 10)
+    model = TextModel(num_classes = 1 ,num_train_steps = n_train_steps)
+
+
+    tb_logger = tez.callbacks.TensorBoardLogger(log_dir=".logs/")
+    es = tez.callbacks.EarlyStopping(monitor="valid_loss", model_path="model.bin")
+    model.fit(
+        train_dataset,
+        valid_dataset=valid_dataset,
+        train_bs=32,
+        device="cuda",
+        epochs=2,
+        callbacks=[tb_logger, es],
+        fp16=True,
+    )
+    model.save('model.bin')
