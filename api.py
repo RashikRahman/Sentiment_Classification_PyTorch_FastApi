@@ -83,9 +83,12 @@ def fetch_predictions(text: str):
     prediction = float(list(Model.predict(data, batch_size=1))[0][0][0])
     if prediction>0.95:
         Sentiment = 'Positive'
+        return {"Accuracy": prediction,
+            "Sentiment": Sentiment,
+            "FeedBack": text}
     else:
         Sentiment = 'Negative'
-    return {"Positive": prediction,
-            "Negative": 1-prediction,
-            "FeedBack": text,
-            "Sentiment": Sentiment}
+        return {"Accuracy": 1-prediction,
+            "Sentiment": Sentiment,
+            "FeedBack": text}
+    

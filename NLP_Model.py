@@ -119,9 +119,9 @@ if __name__ == "__main__":
     model.fit(
         train_dataset,
         valid_dataset=valid_dataset,
-        train_bs=64,
+        train_bs=24,
         device="cuda",
-        epochs=50,
+        epochs=10,
         callbacks=[tb_logger, es],
         fp16=True,
     )
