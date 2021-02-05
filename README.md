@@ -20,6 +20,7 @@ pip install fastapi #webframwork
 pip install uvicorn #server framwork
 python NLP_Model.py
 ```
+
 Then your model will start training. 
 <br><br>
 
