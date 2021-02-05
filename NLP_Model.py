@@ -92,7 +92,7 @@ class TextModel(tez.Model):
         return x, 0, {}
 
 if __name__ == "__main__":
-    dfx = pd.read_csv(r"G:\DS\3.Personal_Projects\Sentiment_Classification_PyTorch_FastApi\Data\imdb.csv")
+    dfx = pd.read_csv("https://raw.githubusercontent.com/RashikRahman/Sentiment_Classification_PyTorch_FastApi/main/Data/imdb.csv")
     dfx.sentiment = dfx.sentiment.apply(lambda x: 1 if x == "positive" else 0)
 
     df_train, df_valid = model_selection.train_test_split(
@@ -119,7 +119,7 @@ if __name__ == "__main__":
     model.fit(
         train_dataset,
         valid_dataset=valid_dataset,
-        train_bs=24,
+        train_bs=20,
         device="cuda",
         epochs=10,
         callbacks=[tb_logger, es],
