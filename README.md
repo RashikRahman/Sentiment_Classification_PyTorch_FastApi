@@ -20,7 +20,10 @@ pip install fastapi #webframwork
 pip install uvicorn #server framwork
 python NLP_Model.py
 ```
-Then your model will start trainign. If your GPU has lower then 8GB of VRAM then you'll run into CUDA out of memory error. To solve this open NLP_Model.py locate to **model.fit()** parameters and set train_bs=64 to train_bs=16 if you still face issue then again lower it to 8. For this case it is recommended to train in colab. After that you can download the model.bin file and put it in logs directory.
+Then your model will start trainign. 
+
+
+If your GPU has lower then 8GB of VRAM then you'll run into CUDA out of memory error. To solve this open NLP_Model.py locate to **model.fit()** parameters and set train_bs=64 to train_bs=16 if you still face issue then again lower it to 8. For this case it is recommended to train in colab. After that you can download the model.bin file and put it in logs directory.
 
 After the training finishes you'll need to use FastApi to see it in web end. Considering you are still in that repo directory type in the following commands
 
